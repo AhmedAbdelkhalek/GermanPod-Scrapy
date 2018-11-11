@@ -3,7 +3,7 @@ import scrapy
 from bs4 import BeautifulSoup
 from scrapy.http import Request
 from ..items import GerpodItem
-from scrapy.loader import ItemLoader
+from ..items import WordLoader
 
 
 def word_extract(tag, css_class):
@@ -24,20 +24,22 @@ class WordsSpider(scrapy.Spider):
     name = 'wordsSpider'
     allowed_domains = ['www.germanpod101.com']
     start_urls = ['https://www.germanpod101.com/german-word-lists/']
+    id = 0
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, "html.parser")
         item_boxes = soup.find_all(attrs={"class": "wlv-item__box"})
 
-        words = {}
         for item_box in item_boxes:
-            loader = ItemLoader(item=GerpodItem())
-            img_url = item_box.find("img")["src"]
-            loader.add_value("word_id", img_url.replace("https://", "").split(".")[0])
-            loader.add_value("img_url", img_url)
+            loader = WordLoader(item=GerpodItem())
+            # id += 1
+            # loader.add_value("word_id", "w{}".format(id))
+            loader.add_value("img_url", item_box.find("img")["src"])
 
             loader.add_value("ger_word", word_extract(item_box, "wlv-item__word-container"))
             loader.add_value("ger_word_sound_url", sound_url_extract(item_box, "wlv-item__word-container"))
+            loader.add_value("eng_word", word_extract(item_box, "wlv-item__english-container"))
+            loader.add_value("eng_word_sound_url", sound_url_extract(item_box, "wlv-item__english-container"))
 
             ger_word_article = item_box.find("span", attrs={"class": "wlv-item__word-article"})
             loader.add_value("ger_word_article", ger_word_article.text if ger_word_article else "")
@@ -50,5 +52,5 @@ class WordsSpider(scrapy.Spider):
 
             yield loader.load_item()
 
-            # next_page_ref = soup.find(attrs={"class": "r101-pagination--b"}).find_all("a")[-1]["href"]
-            # yield Request(url="https://www.germanpod101.com/german-word-lists/" + next_page_ref)
+            next_page_ref = soup.find(attrs={"class": "r101-pagination--b"}).find_all("a")[-1]["href"]
+            yield Request(url="https://www.germanpod101.com/german-word-lists/" + next_page_ref)
