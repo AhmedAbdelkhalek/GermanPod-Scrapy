@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from bs4 import BeautifulSoup
+from scrapy.http import Request
 
 def word_and_sound_extractor(tag, css_class):
     tag = tag.find(attrs={"class": css_class})
@@ -38,3 +39,5 @@ class WordsSpider(scrapy.Spider):
                 "eng_example_sound_url": eng_example_sound_url
             }
 
+        next_page_ref = soup.find(attrs={"class":"r101-pagination--b"}).find_all("a")[-1]["href"]
+        yield Request(url="https://www.germanpod101.com/german-word-lists/" + next_page_ref)
