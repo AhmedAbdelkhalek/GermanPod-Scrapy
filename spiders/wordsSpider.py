@@ -31,7 +31,12 @@ class WordsSpider(scrapy.Spider):
             example_box = item_box.find(attrs={"class": "wlv-item__samples-box"})
             ger_example, ger_example_sound_url = word_and_sound_extractor(example_box, "wlv-item__word-container")
             eng_example, eng_example_sound_url = word_and_sound_extractor(example_box, "wlv-item__english-container")
+            img_url = item_box.find("img")["src"]
+            word_id = img_url.replace("https://", "").split(".")[0]
+
             yield {
+                "word_id": word_id,
+                "img_url": img_url,
                 "ger_word_article": ger_word_article,
                 "ger_word": ger_word,
                 "ger_word_sound_url": ger_word_sound_url,
