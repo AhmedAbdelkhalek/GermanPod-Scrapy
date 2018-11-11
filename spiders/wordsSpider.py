@@ -19,4 +19,12 @@ class WordsSpider(scrapy.Spider):
             eng_word_box = item_box.find(attrs={"class": "wlv-item__english-container"})
             eng_word = eng_word_box.find("span").text
             eng_word_sound_url = eng_word_box.find("audio")["src"]
- 
+
+            example_box = item_box.find(attrs={"class": "wlv-item__samples-box"})
+            ger_example_box = example_box.find(attrs={"class": "wlv-item__word-container"})
+            ger_example = ger_example_box.find("span").text
+            ger_example_sound_url = ger_example_box.find("audio")["src"]
+
+            eng_example_box = example_box.find(attrs={"class": "wlv-item__english-container"})
+            eng_example = eng_example_box.find("span").text
+            eng_example_sound_url = eng_example_box.find("audio")["src"]
