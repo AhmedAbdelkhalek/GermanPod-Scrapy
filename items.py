@@ -11,4 +11,14 @@ import scrapy
 class GerpodItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    word_id = scrapy.Field()
+    img_url = scrapy.Field()
+    ger_word_article = scrapy.Field()
+    ger_word = scrapy.Field()
+    ger_word_sound_url = scrapy.Field()
+    eng_word = scrapy.Field()
+    eng_word_sound_url = scrapy.Field()
+    ger_example = scrapy.Field()
+    ger_example_sound_url = scrapy.Field()
+    eng_example = scrapy.Field()
+    eng_example_sound_url = scrapy.Field()
