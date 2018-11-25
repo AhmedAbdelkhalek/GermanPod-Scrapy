@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Define here the models for your scraped items
 #
 # See documentation in:
@@ -9,8 +7,10 @@ import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import Join
 
-
+# this class will be used to process the scraped data,
 class WordLoader(ItemLoader):
+    # still not sure, but scrapy deals with items as lists,
+    # and urls are required to be texts to be downloaded, so we join the urls for the pipelines module to usu them.
     img_url_out = Join("")
     word_id_out = Join("")
     ger_word_sound_url_out = Join("")
@@ -20,8 +20,7 @@ class WordLoader(ItemLoader):
 
 
 class GerpodItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    # define the fields for your item here like:    # standard scrapy structure.
     img_url = scrapy.Field()
     word_id = scrapy.Field()
     ger_word_article = scrapy.Field()
