@@ -1,10 +1,11 @@
 # GermanPod-Scrapy
 
 This is a simple spider to download free 100 words data from Germanpod101.com 
+
 https://www.germanpod101.com/german-word-lists/
 
 # Downloaded items 
-- csv contain words
+- csv contains words
 - images 
 - german sound files
 - english sound files
